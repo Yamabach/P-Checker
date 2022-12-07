@@ -14,7 +14,7 @@ namespace PCheckerSpace
 		public override void OnLoad()
 		{
 			PCmod = new GameObject("4th P1GP regulation checker");
-			ModConsole.Log("Pチェッカーをロードしました");
+			Log("Pチェッカーをロードしました");
 			SingleInstance<PCGUI>.Instance.transform.parent = PCmod.transform;
 			SingleInstance<BlockController.BlockSelector>.Instance.transform.parent = PCmod.transform;
 			UnityEngine.Object.DontDestroyOnLoad(PCmod);
@@ -158,7 +158,18 @@ namespace PCheckerSpace
 			flagWaterCannon = ShowBlockNumber("ウォーターキャノン", (int)BlockType.WaterCannon, 20);
 			flagShrapnelCannon = ShowBlockNumber("榴散弾キャノン", (int)BlockType.ShrapnelCannon, 20);
 			flagRocket = ShowBlockNumber("ロケット", (int)BlockType.Rocket, 10);
-			flagForbidden = ShowBlockNumber("禁止ブロック", new int[] { (int)BlockType.Flamethrower, (int)BlockType.Cannon, (int)BlockType.Vacuum, (int)BlockType.Crossbow, (int)BlockType.BuildSurface, 52, (int)BlockType.ScalingBlock });
+			flagForbidden = ShowBlockNumber("禁止ブロック", new int[]
+			{
+				(int)BlockType.Flamethrower,
+				(int)BlockType.Cannon, 
+				(int)BlockType.Vacuum, 
+				(int)BlockType.Crossbow, 
+				(int)BlockType.BuildSurface, 
+				52, 
+				(int)BlockType.ScalingBlock,
+				(int)BlockType.Propeller,
+				(int)BlockType.SmallPropeller,
+			});
 
 			flagScale = ShowBlockNumber("スケール変更", CheckType.Scale);
 			flagPower = ShowBlockNumber("コピペ使用", CheckType.Power);
@@ -224,7 +235,16 @@ namespace PCheckerSpace
 
 			GUI.DragWindow();
 		}
-		public bool ShowBlockNumber(string Label, int BlockId, int max=0, int min=0) //ブロックの数と判定をGUIに表示する //OKならTrue
+		/// <summary>
+		/// ブロックの数と判定をGUIに表示する
+		/// OKならTrue
+		/// </summary>
+		/// <param name="Label"></param>
+		/// <param name="BlockId"></param>
+		/// <param name="max"></param>
+		/// <param name="min"></param>
+		/// <returns></returns>
+		public bool ShowBlockNumber(string Label, int BlockId, int max=0, int min=0)
 		{
 			int BlockCount = NumOfBlock(BlockId);
 			bool ret = min <= BlockCount && BlockCount <= max;
@@ -236,7 +256,15 @@ namespace PCheckerSpace
 			}
 			return ret;
 		}
-		public bool ShowBlockNumber(string Label, int[] BlockIds, int max=0, int min = 0) //OKならTrue
+		/// <summary>
+		/// ブロックの数をGUIに表示する
+		/// </summary>
+		/// <param name="Label"></param>
+		/// <param name="BlockIds"></param>
+		/// <param name="max"></param>
+		/// <param name="min"></param>
+		/// <returns></returns>
+		public bool ShowBlockNumber(string Label, int[] BlockIds, int max=0, int min = 0)
 		{
 			int BlockCount = 0;
 			foreach(BlockBehaviour current in machine.BuildingBlocks)
@@ -258,6 +286,12 @@ namespace PCheckerSpace
         {
 			Scale, Power,
         }
+		/// <summary>
+		/// マシンが規定を満たすことをGUIに表示する
+		/// </summary>
+		/// <param name="Label"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
 		public bool ShowBlockNumber(string Label, CheckType type)
 		{
 			bool ret;
@@ -320,6 +354,10 @@ namespace PCheckerSpace
 			}
 			return ret;
 		}
+		/// <summary>
+		/// マシンのスキンの数をGUIに表示する
+		/// </summary>
+		/// <returns></returns>
 		public bool ShowSkinNumber()
 		{
 			List<BlockSkinLoader.SkinPack> skins = new List<BlockSkinLoader.SkinPack> { }; //ブロックごとに違う扱いっぽい
@@ -346,7 +384,7 @@ namespace PCheckerSpace
 			}
 			return ret; //デフォルトスキンを含む
 		}
-		public int NumOfBlock(int BlockId) //指定したIDを持つブロックの数を返す
+		public int NumOfBlock(int BlockId)
 		{
 			int num = 0;
 			foreach(BlockBehaviour current in machine.BuildingBlocks)
