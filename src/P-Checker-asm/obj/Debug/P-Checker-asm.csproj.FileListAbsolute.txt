@@ -42,3 +42,4 @@ C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checke
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\Newtonsoft.Json.dll
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\System.Runtime.Serialization.dll
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\UnityEngine.xml
