@@ -44,7 +44,7 @@ namespace PCheckerSpace
 		private bool OpenURL = false;
 		private Machine machine = Machine.Active();
 		public override string Name => "P Chacker GUI";
-		public const int MachineSkinMax = 2;
+		//public int MachineSkinMax = 2;
 		/// <summary>
 		/// ブロックの総数を数える
 		/// </summary>
@@ -105,10 +105,12 @@ namespace PCheckerSpace
 			windowId = ModUtility.GetWindowId();
 			machine = Machine.Active();
         }
+		/*
 		void Start()
         {
 			machine = Machine.Active();
 		}
+		*/
 
 		public void Update()
 		{
@@ -432,14 +434,19 @@ namespace PCheckerSpace
 					skins.Add(block.VisualController.selectedSkin.pack);
 				}
 			}
-			bool ret = skins.Count <= MachineSkinMax;
+			//bool isLegal = skins.Count <= MachineSkinMax;
+			var maxSkins = Regulations.Find(currentRegulationCount).Skins;
+			var isLegal = skins.Count <= maxSkins;
 			if (!minimizeUI)
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.Label("スキン数", ret ? StyleOk : StyleNg); GUILayout.FlexibleSpace(); GUILayout.Label((skins.Count).ToString() + "/" + MachineSkinMax.ToString(), ret ? StyleOk : StyleNg);
+				GUILayout.Label("スキン数", isLegal ? StyleOk : StyleNg);
+				GUILayout.FlexibleSpace();
+				//GUILayout.Label((skins.Count).ToString() + "/" + MachineSkinMax.ToString(), isLegal ? StyleOk : StyleNg);
+				GUILayout.Label($"{skins.Count}/{maxSkins}", isLegal ? StyleOk : StyleNg);
 				GUILayout.EndHorizontal();
 			}
-			return ret; //デフォルトスキンを含む
+			return isLegal; //デフォルトスキンを含む
 		}
 		public int NumOfBlock(int BlockId)
 		{
@@ -512,6 +519,8 @@ namespace PCheckerSpace
 			/// </summary>
 			[XmlAttribute("allow_rocket_exceed")]
 			public bool AllowRocketExceed { get; set; }
+			[XmlAttribute("skins")]
+			public int Skins { get; set; }
 		}
 
 		[XmlRoot("P1GPRegulations")]

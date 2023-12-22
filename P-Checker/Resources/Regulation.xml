@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <P1GPRegulations>
-	<P1GPRegulation count="6" machine_block_max="200" allow_rocket_exceed="true">
+	<P1GPRegulation count="7" machine_block_max="200" allow_rocket_exceed="true" skins="4">
 		<link>https://docs.google.com/spreadsheets/d/1yJa2rGFxdcZXEn4vdBFPYDvdAo2tmLkkmlgDuH1DNzM/edit#gid=0</link>
 		
 		<!-- mandatory -->
@@ -25,7 +25,32 @@
 		<Block name="SmallPropeller" id="55" min="0" max="0"/>
 	</P1GPRegulation>
 	
-	<P1GPRegulation count="5" machine_block_max="200" allow_rocket_exceed="true">
+	<P1GPRegulation count="6" machine_block_max="200" allow_rocket_exceed="true" skins="2">
+		<link>https://docs.google.com/spreadsheets/d/1yJa2rGFxdcZXEn4vdBFPYDvdAo2tmLkkmlgDuH1DNzM/edit#gid=0</link>
+		
+		<!-- mandatory -->
+		<Block name="ボム" id="23" min="4" max="200" />
+		
+		<!-- limited -->
+		<Block name="フライングブロック" id="14" min="0" max="20" />
+		<Block name="ウォーターキャノン" id="56" min="0" max="20" />
+		<Block name="榴散弾キャノン" id="53" min="0" max="20" />
+		<Block name="ロケット" id="59" min="0" max="10" />
+		
+		<!-- forbidden -->
+		<Block name="Flamethrower" id="21" min="0" max="0"/>
+		<Block name="Cannon" id="11" min="0" max="0"/>
+		<Block name="Flamethrower" id="21" min="0" max="0"/>
+		<Block name="Vacuum" id="62" min="0" max="0"/>
+		<Block name="Crossbow" id="61" min="0" max="0"/>
+		<Block name="BuildSurface" id="73" min="0" max="0"/>
+		<Block name="52" id="52" min="0" max="0"/>
+		<Block name="ScalingBlock" id="12" min="0" max="0"/>
+		<Block name="Propeller" id="26" min="0" max="0"/>
+		<Block name="SmallPropeller" id="55" min="0" max="0"/>
+	</P1GPRegulation>
+	
+	<P1GPRegulation count="5" machine_block_max="200" allow_rocket_exceed="true" skins="2">
 		<link>https://docs.google.com/spreadsheets/d/1KBizrmb2volLAelfyXzKeEzKSntdt8GG4n-w8pF8J-E/edit?usp=sharing</link>
 		<!-- mandatory -->
 		<Block name="ボム" id="23" min="4" max="200" />
@@ -46,7 +71,7 @@
 		<Block name="ScalingBlock" id="12" min="0" max="0"/>
 	</P1GPRegulation>
 
-	<P1GPRegulation count="4" machine_block_max="200" allow_rocket_exceed="true">
+	<P1GPRegulation count="4" machine_block_max="200" allow_rocket_exceed="true" skins="2">
 		<link>https://docs.google.com/spreadsheets/d/1oEi-RUSannCdbTHx1yuU1mhQcdUu-1u46QdpQjEo6Hg/edit?usp=sharing</link>
 		
 		<!-- mandatory -->
@@ -68,7 +93,7 @@
 		<Block name="ScalingBlock" id="12" min="0" max="0"/>
 	</P1GPRegulation>
 	
-	<P1GPRegulation count="3" machine_block_max="200" allow_rocket_exceed="true">
+	<P1GPRegulation count="3" machine_block_max="200" allow_rocket_exceed="true" skins="2">
 		<link>https://docs.google.com/spreadsheets/d/1r3mrx1AlSmr9QLUsytbCdsdWssEyRgiOS1HcfxgebLg/edit?usp=sharing</link>
 		
 		<!-- mandatory -->
@@ -90,7 +115,7 @@
 		<Block name="ScalingBlock" id="12" min="0" max="0"/>
 	</P1GPRegulation>
 	
-	<P1GPRegulation count="2" machine_block_max="200" allow_rocket_exceed="false">
+	<P1GPRegulation count="2" machine_block_max="200" allow_rocket_exceed="false" skins="2">
 		<link>https://docs.google.com/spreadsheets/d/1Iz_2tFnEt7Wr6ACxriC7-mhJzFMzH6edJrToYScykuw/edit?usp=sharing</link>
 		
 		<!-- mandatory -->
@@ -114,7 +139,7 @@
 		<Block name="ScalingBlock" id="12" min="0" max="0"/>
 	</P1GPRegulation>
 	
-	<P1GPRegulation count="1" machine_block_max="150" allow_rocket_exceed="false">
+	<P1GPRegulation count="1" machine_block_max="150" allow_rocket_exceed="false" skins="2">
 		<!-- ブロマガのサ終のためニコニコ大百科を指定 -->
 		<link>https://dic.nicovideo.jp/a/p1%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%97%E3%83%AA#h2-3</link>
 		
