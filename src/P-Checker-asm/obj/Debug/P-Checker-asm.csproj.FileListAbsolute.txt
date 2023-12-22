@@ -13,7 +13,6 @@ C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checke
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\RakNetSwig.dll
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\ch.sycoforge.Decal.dll
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\NATTraversalForUNET.dll
-C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.csprojAssemblyReference.cache
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.csproj.CopyComplete
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.dll
 C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.pdb
@@ -38,3 +37,9 @@ D:\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Chec
 D:\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.csproj.CopyComplete
 D:\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.dll
 D:\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.pdb
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\Ookii.Dialogs.dll
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\Ionic.Zip.Unity.dll
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\Newtonsoft.Json.dll
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\System.Runtime.Serialization.dll
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\obj\Debug\P-Checker-asm.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\Besiege\Besiege_Data\Mods\P-Checker Project\src\P-Checker-asm\bin\Debug\UnityEngine.xml

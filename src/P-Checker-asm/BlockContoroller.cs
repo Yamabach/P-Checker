@@ -76,6 +76,9 @@ namespace PCheckerSpace
                 {
                     (int)BlockType.Drill, typeof(WheelScript)
                 },
+                {
+                    (int)BlockType.Suspension, typeof(SuspensionScript)
+                }
             };
 
             public void Awake()
@@ -90,7 +93,7 @@ namespace PCheckerSpace
                     Type type = BlockDict[internalObject.BlockID];
                     try
                     {
-                        if (internalObject.GetComponent(type) == null)
+                        if (internalObject.GetComponent(type) is null)
                         {
                             internalObject.gameObject.AddComponent(type);
                         }
@@ -101,7 +104,7 @@ namespace PCheckerSpace
                     }
                     return;
                 }
-                if (internalObject.GetComponent(typeof(CustomBlockBehaviour)) == null)
+                if (internalObject.GetComponent(typeof(CustomBlockBehaviour)) is null)
                 {
                     internalObject.gameObject.AddComponent<CustomBlockBehaviour>();
                 }
@@ -190,7 +193,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (BC.BuoyancySlider.Value > 1.5f || BC.BuoyancySlider.Value < 0.2f) &&
+                    (BC.BuoyancySlider.Value > 1.5f || BC.BuoyancySlider.Value < 0.2f) ||
                     (BC.StringLengthSlider.Value > 6f || BC.StringLengthSlider.Value < 0f);
             }
         }
@@ -213,14 +216,14 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (FCB.DistanceSlider.Value < Distance[0] || Distance[1] < FCB.DistanceSlider.Value) &&
-                    (FCB.HeightSlider.Value < Height[0] || Height[1] < FCB.HeightSlider.Value) &&
-                    (FCB.RotationSlider.Value < Rotation[0] || Rotation[1] < FCB.RotationSlider.Value) &&
-                    (FCB.TiltSlider.Value < Tilt[0] || Tilt[1] < FCB.TiltSlider.Value) &&
-                    (FCB.RollSlider.Value < Roll[0] || Roll[1] < FCB.RollSlider.Value) &&
-                    (FCB.YawSlider.Value < Yaw[0] || Yaw[1] < FCB.YawSlider.Value) &&
-                    (FCB.fovSlider.Value < FoV[0] || FoV[1] < FCB.fovSlider.Value) &&
-                    (FCB.SmoothSlider.Value < Smooth[0] || Smooth[1] < FCB.SmoothSlider.Value) &&
+                    (FCB.DistanceSlider.Value < Distance[0] || Distance[1] < FCB.DistanceSlider.Value) ||
+                    (FCB.HeightSlider.Value < Height[0] || Height[1] < FCB.HeightSlider.Value) ||
+                    (FCB.RotationSlider.Value < Rotation[0] || Rotation[1] < FCB.RotationSlider.Value) ||
+                    (FCB.TiltSlider.Value < Tilt[0] || Tilt[1] < FCB.TiltSlider.Value) ||
+                    (FCB.RollSlider.Value < Roll[0] || Roll[1] < FCB.RollSlider.Value) ||
+                    (FCB.YawSlider.Value < Yaw[0] || Yaw[1] < FCB.YawSlider.Value) ||
+                    (FCB.fovSlider.Value < FoV[0] || FoV[1] < FCB.fovSlider.Value) ||
+                    (FCB.SmoothSlider.Value < Smooth[0] || Smooth[1] < FCB.SmoothSlider.Value) ||
                     (FCB.PredictSlider.Value < Pred[0] || Pred[1] < FCB.PredictSlider.Value);
             }
         }
@@ -256,7 +259,8 @@ namespace PCheckerSpace
         {
             private TimedRocket TR;
             private float[] Duration = new float[2] { 0.5f, 10f };
-            private float[] Thrust = new float[2] { 0.1f, 4f };
+            private float[] Thrust = new float[2] { 0.1f, 1.5f };
+            private float[] ThrustExceed = new float[2] { 0.1f, 4f };
             private float[] Charge = new float[2] { 0f, 1.5f };
             public override void SafeAwake()
             {
@@ -265,8 +269,16 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) &&
-                    (TR.PowerSlider.Value < Thrust[0] || Thrust[1] < TR.PowerSlider.Value) &&
+                    PCGUI.Instance.AllowRocketExceed ?
+
+                    // ロケットの限凸可能
+                    (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
+                    (TR.PowerSlider.Value < ThrustExceed[0] || ThrustExceed[1] < TR.PowerSlider.Value) ||
+                    (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value):
+
+                    // ロケットの限凸不可能
+                    (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
+                    (TR.PowerSlider.Value < Thrust[0] || Thrust[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value);
             }
         }
@@ -282,7 +294,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (SB.DistanceSlider.Value < Distance[0]  || Distance[1] < SB.DistanceSlider.Value) &&
+                    (SB.DistanceSlider.Value < Distance[0]  || Distance[1] < SB.DistanceSlider.Value) ||
                     (SB.RadiusSllider.Value < Radius[0]     || Radius[1] < SB.RadiusSllider.Value);
             }
         }
@@ -312,6 +324,9 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+
+                // 重さ（どうしよう）
+                powerFlag |= SC.MassSlider.Value < SC.MassSlider.Min || SC.MassSlider.Max < SC.MassSlider.Value;
             }
         }
         public class SteeringBlockScript : CustomBlockBehaviour
@@ -331,7 +346,8 @@ namespace PCheckerSpace
         public class SuspensionScript : CustomBlockBehaviour
         {
             private SuspensionController SC;
-            private float minValue = 0.5f;
+            private float minValue = 0.25f;
+            private float minValueDamper = 0.1f;
             private float maxValue = 3f;
             public override void SafeAwake()
             {
@@ -339,7 +355,8 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value;
+                powerFlag = SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value ||
+                    SC.DamperSlider.Value < minValueDamper || maxValue < SC.DamperSlider.Value;
             }
         }
         public class TimerScript : CustomBlockBehaviour
@@ -354,7 +371,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (TB.WaitSlider.Value < Wait[0] || Wait[1] < TB.WaitSlider.Value) &&
+                    (TB.WaitSlider.Value < Wait[0] || Wait[1] < TB.WaitSlider.Value) ||
                     (TB.EmulationSlider.Value < Duration[0] || Duration[1] < TB.EmulationSlider.Value);
             }
         }
@@ -375,8 +392,8 @@ namespace PCheckerSpace
         public class WheelScript : CustomBlockBehaviour
         {
             private CogMotorControllerHinge CMCH;
-            private float[] Speed           = new float[2] {0f, 2f };
-            private float[] Acceleration    = new float[2] { 0f, 50f };
+            private float[] Speed           = new float[2] { 0f, 2f };
+            private float[] Acceleration    = new float[2] { 0.1f, 50f };
             public override void SafeAwake()
             {
                 CMCH = GetComponent<CogMotorControllerHinge>();
@@ -384,9 +401,17 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag =
-                    (CMCH.SpeedSlider.Value < Speed[0]                  || Speed[1] < CMCH.SpeedSlider.Value) &&
-                    (CMCH.AccelerationSlider.Value < Acceleration[0]    || Acceleration[1] < CMCH.AccelerationSlider.Value) &&
-                    CMCH.AccelerationSlider.Value != float.PositiveInfinity;
+                    // speed < min
+                    (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
+
+                    // max < speed
+                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) ||
+
+                    // acc < min
+                    (CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
+
+                    // max < acc < +inf
+                    (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity));
             }
         }
     }
