@@ -44,7 +44,6 @@ namespace PCheckerSpace
 		private bool OpenURL = false;
 		private Machine machine = Machine.Active();
 		public override string Name => "P Chacker GUI";
-		//public int MachineSkinMax = 2;
 		/// <summary>
 		/// ブロックの総数を数える
 		/// </summary>
@@ -105,13 +104,6 @@ namespace PCheckerSpace
 			windowId = ModUtility.GetWindowId();
 			machine = Machine.Active();
         }
-		/*
-		void Start()
-        {
-			machine = Machine.Active();
-		}
-		*/
-
 		public void Update()
 		{
 			if (!StatMaster.isMainMenu && Input.GetKeyDown(KeyCode.Tab))
@@ -304,7 +296,11 @@ namespace PCheckerSpace
 			if (!minimizeUI)
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.Label(Label, ret ? StyleOk : StyleNg); GUILayout.FlexibleSpace(); GUILayout.Label(BlockCount.ToString() + "/" + (min != 0 ? min.ToString() : max.ToString()), ret ? StyleOk : StyleNg);
+				GUILayout.Label(Label, ret ? StyleOk : StyleNg); 
+				GUILayout.FlexibleSpace(); 
+				//GUILayout.Label(BlockCount.ToString() + "/" + (min != 0 ? min.ToString() : max.ToString()), ret ? StyleOk : StyleNg);
+				var deliminator = min != 0 ? min : max;
+				GUILayout.Label($"{BlockCount}/{deliminator}", ret ? StyleOk : StyleNg);
 				GUILayout.EndHorizontal();
 			}
 			return ret;
@@ -330,7 +326,9 @@ namespace PCheckerSpace
 			if (!minimizeUI)
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.Label(Label, ret ? StyleOk : StyleNg); GUILayout.FlexibleSpace(); GUILayout.Label(BlockCount.ToString(), ret ? StyleOk : StyleNg);
+				GUILayout.Label(Label, ret ? StyleOk : StyleNg); 
+				GUILayout.FlexibleSpace(); 
+				GUILayout.Label($"{BlockCount}", ret ? StyleOk : StyleNg);
 				GUILayout.EndHorizontal();
 			}
 			return ret;
@@ -434,7 +432,6 @@ namespace PCheckerSpace
 					skins.Add(block.VisualController.selectedSkin.pack);
 				}
 			}
-			//bool isLegal = skins.Count <= MachineSkinMax;
 			var maxSkins = Regulations.Find(currentRegulationCount).Skins;
 			var isLegal = skins.Count <= maxSkins;
 			if (!minimizeUI)
@@ -442,7 +439,6 @@ namespace PCheckerSpace
 				GUILayout.BeginHorizontal();
 				GUILayout.Label("スキン数", isLegal ? StyleOk : StyleNg);
 				GUILayout.FlexibleSpace();
-				//GUILayout.Label((skins.Count).ToString() + "/" + MachineSkinMax.ToString(), isLegal ? StyleOk : StyleNg);
 				GUILayout.Label($"{skins.Count}/{maxSkins}", isLegal ? StyleOk : StyleNg);
 				GUILayout.EndHorizontal();
 			}
