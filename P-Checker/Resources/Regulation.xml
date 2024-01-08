@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <P1GPRegulations>
 	<P1GPRegulation count="7" machine_block_max="200" allow_rocket_exceed="true" skins="4">
-		<link>https://docs.google.com/spreadsheets/d/1yJa2rGFxdcZXEn4vdBFPYDvdAo2tmLkkmlgDuH1DNzM/edit#gid=0</link>
+		<link>https://docs.google.com/spreadsheets/d/1E1bN7XelA5HTHVFEO2lO-buw9kacJDlzzXbJ5cdEq94/edit#gid=0</link>
 		
 		<!-- mandatory -->
 		<Block name="ボム" id="23" min="4" max="200" />

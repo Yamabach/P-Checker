@@ -141,7 +141,7 @@ namespace PCheckerSpace
             }
             public void OnMouseOver()
             {
-                PCGUI.picked = internalObject;
+                PCGUI.PickedBlockBehaviour = internalObject;
             }
             public virtual void SafeAwake() { }
             public virtual void BuildingUpdate() { }
