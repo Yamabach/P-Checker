@@ -65,7 +65,7 @@ namespace PCheckerSpace
                     (int)BlockType.CircularSaw, typeof(WheelScript)
                 },
                 {
-                    (int)BlockType.SpinningBlock, typeof(WheelScript)
+                    (int)BlockType.SpinningBlock, typeof(SpinningBlockScript)
                 },
                 {
                     (int)BlockType.CogMediumPowered, typeof(WheelScript)
@@ -78,6 +78,12 @@ namespace PCheckerSpace
                 },
                 {
                     (int)BlockType.Suspension, typeof(SuspensionScript)
+                },
+                {
+                    (int)BlockType.LogicGate, typeof(LogicGateScript)
+                },
+                {
+                    (int)BlockType.Speedometer, typeof(SpeedometerScript)
                 }
             };
 
@@ -362,8 +368,8 @@ namespace PCheckerSpace
         public class TimerScript : CustomBlockBehaviour
         {
             private TimerBlock TB;
-            private float[] Wait = new float[2] { 0f, 60f };
-            private float[] Duration = new float[2] { 0f, 60f };
+            private float[] Wait = new float[2] { 0f, 999999.99f };
+            private float[] Duration = new float[2] { 0f, 999999.99f };
             public override void SafeAwake()
             {
                 TB = GetComponent<TimerBlock>();
@@ -412,6 +418,60 @@ namespace PCheckerSpace
 
                     // max < acc < +inf
                     (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity));
+            }
+        }
+        public class SpinningBlockScript : CustomBlockBehaviour
+        {
+            private CogMotorControllerHinge CMCH;
+            private float[] Speed           = new float[2] { 0f, 2f };
+            private float[] Acceleration    = new float[2] { 0.1f, 50f };
+            public override void SafeAwake()
+            {
+                CMCH = GetComponent<CogMotorControllerHinge>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag =
+                    // speed < min
+                    (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
+
+                    // max < speed
+                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) ||
+
+                    // acc < min
+                    (CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
+
+                    // max < acc < +inf
+                    (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
+                    // スピニングブロックの自動ブレーキ = LimitSpeedToMotor
+                    CMCH.AutoBreakToggle.IsActive == false;
+            }
+        }
+        public class LogicGateScript : CustomBlockBehaviour
+        {
+            private LogicGate LG;
+            private int EdgeDetector = 11; //エッジ検出のモード番号
+            public override void SafeAwake()
+            {
+                LG = GetComponent<LogicGate>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = LG.ModeMenu.Value == EdgeDetector;
+            }
+        }
+        public class SpeedometerScript : CustomBlockBehaviour
+        {
+            private SpeedometerBlock SB; //BlockBehaviourより継承
+            private float minValue = -99999f;
+            private float maxValue = 999999.99f;
+            public override void SafeAwake()
+            {
+                SB = GetComponent<SpeedometerBlock>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = SB.HeightSlider.Value > maxValue || SB.HeightSlider.Value < minValue;
             }
         }
     }
