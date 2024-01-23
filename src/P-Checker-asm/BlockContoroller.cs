@@ -65,7 +65,7 @@ namespace PCheckerSpace
                     (int)BlockType.CircularSaw, typeof(WheelScript)
                 },
                 {
-                    (int)BlockType.SpinningBlock, typeof(WheelScript)
+                    (int)BlockType.SpinningBlock, typeof(SpinningBlockScript)
                 },
                 {
                     (int)BlockType.CogMediumPowered, typeof(WheelScript)
@@ -412,6 +412,33 @@ namespace PCheckerSpace
 
                     // max < acc < +inf
                     (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity));
+            }
+        }
+        public class SpinningBlockScript : CustomBlockBehaviour
+        {
+            private CogMotorControllerHinge CMCH;
+            private float[] Speed           = new float[2] { 0f, 2f };
+            private float[] Acceleration    = new float[2] { 0.1f, 50f };
+            public override void SafeAwake()
+            {
+                CMCH = GetComponent<CogMotorControllerHinge>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag =
+                    // speed < min
+                    (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
+
+                    // max < speed
+                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) ||
+
+                    // acc < min
+                    (CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
+
+                    // max < acc < +inf
+                    (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
+                    // スピニングブロックの自動ブレーキ = LimitSpeedToMotor
+                    CMCH.AutoBreakToggle.IsActive == false;
             }
         }
     }
