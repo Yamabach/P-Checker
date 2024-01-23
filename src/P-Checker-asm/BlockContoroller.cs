@@ -81,6 +81,9 @@ namespace PCheckerSpace
                 },
                 {
                     (int)BlockType.LogicGate, typeof(LogicGateScript)
+                },
+                {
+                    (int)BlockType.Speedometer, typeof(SpeedometerScript)
                 }
             };
 
@@ -365,8 +368,8 @@ namespace PCheckerSpace
         public class TimerScript : CustomBlockBehaviour
         {
             private TimerBlock TB;
-            private float[] Wait = new float[2] { 0f, 60f };
-            private float[] Duration = new float[2] { 0f, 60f };
+            private float[] Wait = new float[2] { 0f, 999999.99f };
+            private float[] Duration = new float[2] { 0f, 999999.99f };
             public override void SafeAwake()
             {
                 TB = GetComponent<TimerBlock>();
@@ -455,6 +458,20 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 powerFlag = LG.ModeMenu.Value == EdgeDetector;
+            }
+        }
+        public class SpeedometerScript : CustomBlockBehaviour
+        {
+            private SpeedometerBlock SB; //BlockBehaviourÇÊÇËåpè≥
+            private float minValue = -99999f;
+            private float maxValue = 999999.99f;
+            public override void SafeAwake()
+            {
+                SB = GetComponent<SpeedometerBlock>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = SB.HeightSlider.Value > maxValue || SB.HeightSlider.Value < minValue;
             }
         }
     }
