@@ -65,7 +65,7 @@ namespace PCheckerSpace
                     (int)BlockType.CircularSaw, typeof(WheelScript)
                 },
                 {
-                    (int)BlockType.SpinningBlock, typeof(WheelScript)
+                    (int)BlockType.SpinningBlock, typeof(SpinningBlockScript)
                 },
                 {
                     (int)BlockType.CogMediumPowered, typeof(WheelScript)
@@ -78,6 +78,12 @@ namespace PCheckerSpace
                 },
                 {
                     (int)BlockType.Suspension, typeof(SuspensionScript)
+                },
+                {
+                    (int)BlockType.LogicGate, typeof(LogicGateScript)
+                },
+                {
+                    (int)BlockType.Speedometer, typeof(SpeedometerScript)
                 }
             };
 
@@ -157,7 +163,7 @@ namespace PCheckerSpace
         }
         public class AltimeterScript : CustomBlockBehaviour
         {
-            private AltimeterBlock AB; //BlockBehaviour���p��
+            private AltimeterBlock AB; //BlockBehaviourより継承
             private float minValue = 0.5f;
             private float maxValue = 250f;
             public override void SafeAwake()
@@ -271,12 +277,12 @@ namespace PCheckerSpace
                 IsOverpowered =
                     PCGUI.Instance.AllowRocketExceed ?
 
-                    // ���P�b�g�̌��ʉ\
+                    // ロケットの限凸可能
                     (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
                     (TR.PowerSlider.Value < ThrustExceed[0] || ThrustExceed[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value):
 
-                    // ���P�b�g�̌��ʕs�\
+                    // ロケットの限凸不可能
                     (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
                     (TR.PowerSlider.Value < Thrust[0] || Thrust[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value);
@@ -325,7 +331,7 @@ namespace PCheckerSpace
             {
                 IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
 
-                // �d���i�ǂ����悤�j
+                // 重さ（どうしよう）
                 IsOverpowered |= SC.MassSlider.Value < SC.MassSlider.Min || SC.MassSlider.Max < SC.MassSlider.Value;
             }
         }
@@ -362,8 +368,8 @@ namespace PCheckerSpace
         public class TimerScript : CustomBlockBehaviour
         {
             private TimerBlock TB;
-            private float[] Wait = new float[2] { 0f, 999999f };
-            private float[] Duration = new float[2] { 0f, 999999f };
+            private float[] Wait = new float[2] { 0f, 999999.99f };
+            private float[] Duration = new float[2] { 0f, 999999.99f };
             public override void SafeAwake()
             {
                 TB = GetComponent<TimerBlock>();
@@ -414,6 +420,60 @@ namespace PCheckerSpace
                     //(CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity))
 
                     ;
+            }
+        }
+        public class SpinningBlockScript : CustomBlockBehaviour
+        {
+            private CogMotorControllerHinge CMCH;
+            private float[] Speed           = new float[2] { 0f, 2f };
+            private float[] Acceleration    = new float[2] { 0.1f, 50f };
+            public override void SafeAwake()
+            {
+                CMCH = GetComponent<CogMotorControllerHinge>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag =
+                    // speed < min
+                    (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
+
+                    // max < speed
+                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) ||
+
+                    // acc < min
+                    (CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
+
+                    // max < acc < +inf
+                    (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
+                    // スピニングブロックの自動ブレーキ = LimitSpeedToMotor
+                    CMCH.AutoBreakToggle.IsActive == false;
+            }
+        }
+        public class LogicGateScript : CustomBlockBehaviour
+        {
+            private LogicGate LG;
+            private int EdgeDetector = 11; //エッジ検出のモード番号
+            public override void SafeAwake()
+            {
+                LG = GetComponent<LogicGate>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = LG.ModeMenu.Value == EdgeDetector;
+            }
+        }
+        public class SpeedometerScript : CustomBlockBehaviour
+        {
+            private SpeedometerBlock SB; //BlockBehaviourより継承
+            private float minValue = -99999f;
+            private float maxValue = 999999.99f;
+            public override void SafeAwake()
+            {
+                SB = GetComponent<SpeedometerBlock>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = SB.HeightSlider.Value > maxValue || SB.HeightSlider.Value < minValue;
             }
         }
     }
