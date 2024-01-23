@@ -388,7 +388,7 @@ namespace PCheckerSpace
 							Mod.Error(block.name + "‚ÅCustomBlockBehaviour‚ªnull‚Å‚·");
 							continue;
 						}
-						if (CBB.powerFlag)
+						if (CBB.IsOverpowered)
 						{
 							num_power++;
 						}
