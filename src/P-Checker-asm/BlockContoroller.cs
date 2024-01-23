@@ -119,8 +119,8 @@ namespace PCheckerSpace
         public class CustomBlockBehaviour : MonoBehaviour
         {
             BlockBehaviour internalObject;
-            public bool powerFlag = false;
-            public bool scaleFlag = false;
+            public bool IsOverpowered = false;
+            public bool IsScaled = false;
             public bool isFirstFrame = true;
             protected Vector3 defaultSize = Vector3.one;
             public void Awake()
@@ -141,13 +141,13 @@ namespace PCheckerSpace
                 else
                 {
                     BuildingUpdate();
-                    scaleFlag = internalObject.transform.localScale != defaultSize;
+                    IsScaled = internalObject.transform.localScale != defaultSize;
                     isFirstFrame = true;
                 }
             }
             public void OnMouseOver()
             {
-                PCGUI.picked = internalObject;
+                PCGUI.PickedBlockBehaviour = internalObject;
             }
             public virtual void SafeAwake() { }
             public virtual void BuildingUpdate() { }
@@ -163,7 +163,7 @@ namespace PCheckerSpace
         }
         public class AltimeterScript : CustomBlockBehaviour
         {
-            private AltimeterBlock AB; //BlockBehaviourÇÊÇËåpè≥
+            private AltimeterBlock AB; //BlockBehaviour„Çà„ÇäÁ∂ôÊâø
             private float minValue = 0.5f;
             private float maxValue = 250f;
             public override void SafeAwake()
@@ -172,7 +172,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = AB.HeightSlider.Value > maxValue || AB.HeightSlider.Value < minValue;
+                IsOverpowered = AB.HeightSlider.Value > maxValue || AB.HeightSlider.Value < minValue;
             }
         }
         public class BallastScript : CustomBlockBehaviour
@@ -186,7 +186,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = BWC.MassSlider.Value > maxValue || BWC.MassSlider.Value < minValue;
+                IsOverpowered = BWC.MassSlider.Value > maxValue || BWC.MassSlider.Value < minValue;
             }
         }
         public class BalloonScript : CustomBlockBehaviour
@@ -198,7 +198,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     (BC.BuoyancySlider.Value > 1.5f || BC.BuoyancySlider.Value < 0.2f) ||
                     (BC.StringLengthSlider.Value > 6f || BC.StringLengthSlider.Value < 0f);
             }
@@ -221,7 +221,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     (FCB.DistanceSlider.Value < Distance[0] || Distance[1] < FCB.DistanceSlider.Value) ||
                     (FCB.HeightSlider.Value < Height[0] || Height[1] < FCB.HeightSlider.Value) ||
                     (FCB.RotationSlider.Value < Rotation[0] || Rotation[1] < FCB.RotationSlider.Value) ||
@@ -244,7 +244,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = FC.SpeedSlider.Value < minValue || maxValue < FC.SpeedSlider.Value;
+                IsOverpowered = FC.SpeedSlider.Value < minValue || maxValue < FC.SpeedSlider.Value;
             }
         }
         public class PistonScript : CustomBlockBehaviour
@@ -258,7 +258,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+                IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
             }
         }
         public class RocketScript : CustomBlockBehaviour
@@ -274,15 +274,15 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     PCGUI.Instance.AllowRocketExceed ?
 
-                    // ÉçÉPÉbÉgÇÃå¿ì â¬î\
+                    // „É≠„Ç±„ÉÉ„Éà„ÅÆÈôêÂá∏ÂèØËÉΩ
                     (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
                     (TR.PowerSlider.Value < ThrustExceed[0] || ThrustExceed[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value):
 
-                    // ÉçÉPÉbÉgÇÃå¿ì ïsâ¬î\
+                    // „É≠„Ç±„ÉÉ„Éà„ÅÆÈôêÂá∏‰∏çÂèØËÉΩ
                     (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
                     (TR.PowerSlider.Value < Thrust[0] || Thrust[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value);
@@ -299,7 +299,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     (SB.DistanceSlider.Value < Distance[0]  || Distance[1] < SB.DistanceSlider.Value) ||
                     (SB.RadiusSllider.Value < Radius[0]     || Radius[1] < SB.RadiusSllider.Value);
             }
@@ -315,7 +315,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+                IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
             }
         }
         public class RopeScript : CustomBlockBehaviour
@@ -329,10 +329,10 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+                IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
 
-                // èdÇ≥ÅiÇ«Ç§ÇµÇÊÇ§Åj
-                powerFlag |= SC.MassSlider.Value < SC.MassSlider.Min || SC.MassSlider.Max < SC.MassSlider.Value;
+                // Èáç„ÅïÔºà„Å©„ÅÜ„Åó„Çà„ÅÜÔºâ
+                IsOverpowered |= SC.MassSlider.Value < SC.MassSlider.Min || SC.MassSlider.Max < SC.MassSlider.Value;
             }
         }
         public class SteeringBlockScript : CustomBlockBehaviour
@@ -346,7 +346,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SW.SpeedSlider.Value < minValue || maxValue < SW.SpeedSlider.Value;
+                IsOverpowered = SW.SpeedSlider.Value < minValue || maxValue < SW.SpeedSlider.Value;
             }
         }
         public class SuspensionScript : CustomBlockBehaviour
@@ -361,7 +361,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value ||
+                IsOverpowered = SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value ||
                     SC.DamperSlider.Value < minValueDamper || maxValue < SC.DamperSlider.Value;
             }
         }
@@ -376,7 +376,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     (TB.WaitSlider.Value < Wait[0] || Wait[1] < TB.WaitSlider.Value) ||
                     (TB.EmulationSlider.Value < Duration[0] || Duration[1] < TB.EmulationSlider.Value);
             }
@@ -392,7 +392,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = WCC.StrengthSlider.Value < minValue || maxValue < WCC.StrengthSlider.Value;
+                IsOverpowered = WCC.StrengthSlider.Value < minValue || maxValue < WCC.StrengthSlider.Value;
             }
         }
         public class WheelScript : CustomBlockBehaviour
@@ -406,18 +406,20 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     // speed < min
                     (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
 
                     // max < speed
-                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) ||
+                    CMCH.speedSlider.Max < CMCH.SpeedSlider.Value) //||
 
                     // acc < min
-                    (CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
+                    //(CMCH.AccelerationSlider.Value < CMCH.AccelerationSlider.Min ||
 
                     // max < acc < +inf
-                    (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity));
+                    //(CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity))
+
+                    ;
             }
         }
         public class SpinningBlockScript : CustomBlockBehaviour
@@ -443,14 +445,14 @@ namespace PCheckerSpace
 
                     // max < acc < +inf
                     (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
-                    // ÉXÉsÉjÉìÉOÉuÉçÉbÉNÇÃé©ìÆÉuÉåÅ[ÉL = LimitSpeedToMotor
+                    // „Çπ„Éî„Éã„É≥„Ç∞„Éñ„É≠„ÉÉ„ÇØ„ÅÆËá™Âãï„Éñ„É¨„Éº„Ç≠ = LimitSpeedToMotor
                     CMCH.AutoBreakToggle.IsActive == false;
             }
         }
         public class LogicGateScript : CustomBlockBehaviour
         {
             private LogicGate LG;
-            private int EdgeDetector = 11; //ÉGÉbÉWåüèoÇÃÉÇÅ[Éhî‘çÜ
+            private int EdgeDetector = 11; //„Ç®„ÉÉ„Ç∏Ê§úÂá∫„ÅÆ„É¢„Éº„ÉâÁï™Âè∑
             public override void SafeAwake()
             {
                 LG = GetComponent<LogicGate>();
@@ -462,7 +464,7 @@ namespace PCheckerSpace
         }
         public class SpeedometerScript : CustomBlockBehaviour
         {
-            private SpeedometerBlock SB; //BlockBehaviourÇÊÇËåpè≥
+            private SpeedometerBlock SB; //BlockBehaviour„Çà„ÇäÁ∂ôÊâø
             private float minValue = -99999f;
             private float maxValue = 999999.99f;
             public override void SafeAwake()
