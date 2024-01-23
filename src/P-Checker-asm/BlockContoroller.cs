@@ -78,6 +78,9 @@ namespace PCheckerSpace
                 },
                 {
                     (int)BlockType.Suspension, typeof(SuspensionScript)
+                },
+                {
+                    (int)BlockType.LogicGate, typeof(LogicGateScript)
                 }
             };
 
@@ -439,6 +442,19 @@ namespace PCheckerSpace
                     (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
                     // スピニングブロックの自動ブレーキ = LimitSpeedToMotor
                     CMCH.AutoBreakToggle.IsActive == false;
+            }
+        }
+        public class LogicGateScript : CustomBlockBehaviour
+        {
+            private LogicGate LG;
+            private int EdgeDetector = 11; //エッジ検出のモード番号
+            public override void SafeAwake()
+            {
+                LG = GetComponent<LogicGate>();
+            }
+            public override void BuildingUpdate()
+            {
+                powerFlag = LG.ModeMenu.Value == EdgeDetector;
             }
         }
     }
