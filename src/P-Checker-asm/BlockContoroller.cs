@@ -123,6 +123,7 @@ namespace PCheckerSpace
             public bool IsScaled = false;
             public bool isFirstFrame = true;
             protected Vector3 defaultSize = Vector3.one;
+            public bool IsNaN { get; protected set; }
             public void Awake()
             {
                 internalObject = GetComponent<BlockBehaviour>();
@@ -173,6 +174,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = AB.HeightSlider.Value > maxValue || AB.HeightSlider.Value < minValue;
+                IsNaN = float.IsNaN(AB.HeightSlider.Value);
             }
         }
         public class BallastScript : CustomBlockBehaviour
@@ -187,6 +189,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = BWC.MassSlider.Value > maxValue || BWC.MassSlider.Value < minValue;
+                IsNaN = float.IsNaN(BWC.MassSlider.Value);
             }
         }
         public class BalloonScript : CustomBlockBehaviour
@@ -201,6 +204,9 @@ namespace PCheckerSpace
                 IsOverpowered =
                     (BC.BuoyancySlider.Value > 1.5f || BC.BuoyancySlider.Value < 0.2f) ||
                     (BC.StringLengthSlider.Value > 6f || BC.StringLengthSlider.Value < 0f);
+                IsNaN = 
+                    float.IsNaN(BC.BuoyancySlider.Value) || 
+                    float.IsNaN(BC.StringLengthSlider.Value);
             }
         }
         public class CameraScript : CustomBlockBehaviour
@@ -231,6 +237,16 @@ namespace PCheckerSpace
                     (FCB.fovSlider.Value < FoV[0] || FoV[1] < FCB.fovSlider.Value) ||
                     (FCB.SmoothSlider.Value < Smooth[0] || Smooth[1] < FCB.SmoothSlider.Value) ||
                     (FCB.PredictSlider.Value < Pred[0] || Pred[1] < FCB.PredictSlider.Value);
+                IsNaN =
+                    float.IsNaN(FCB.DistanceSlider.Value) ||
+                    float.IsNaN(FCB.HeightSlider.Value) ||
+                    float.IsNaN(FCB.RotationSlider.Value) ||
+                    float.IsNaN(FCB.TiltSlider.Value) ||
+                    float.IsNaN(FCB.RollSlider.Value) ||
+                    float.IsNaN(FCB.YawSlider.Value) ||
+                    float.IsNaN(FCB.fovSlider.Value) ||
+                    float.IsNaN(FCB.SmoothSlider.Value) ||
+                    float.IsNaN(FCB.PredictSlider.Value);
             }
         }
         public class FlyingBlockScript : CustomBlockBehaviour
@@ -245,6 +261,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = FC.SpeedSlider.Value < minValue || maxValue < FC.SpeedSlider.Value;
+                IsNaN = float.IsNaN(FC.SpeedSlider.Value);
             }
         }
         public class PistonScript : CustomBlockBehaviour
@@ -259,6 +276,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+                IsNaN = float.IsNaN(SC.SpeedSlider.Value);
             }
         }
         public class RocketScript : CustomBlockBehaviour
@@ -286,6 +304,11 @@ namespace PCheckerSpace
                     (TR.DelaySlider.Value < Duration[0] || Duration[1] < TR.DelaySlider.Value) ||
                     (TR.PowerSlider.Value < Thrust[0] || Thrust[1] < TR.PowerSlider.Value) ||
                     (TR.ChargeSlider.Value < Charge[0] || Charge[1] < TR.ChargeSlider.Value);
+
+                IsNaN =
+                    float.IsNaN(TR.DelaySlider.Value) ||
+                    float.IsNaN(TR.PowerSlider.Value) ||
+                    float.IsNaN(TR.ChargeSlider.Value);
             }
         }
         public class SensorScript : CustomBlockBehaviour
@@ -302,6 +325,9 @@ namespace PCheckerSpace
                 IsOverpowered =
                     (SB.DistanceSlider.Value < Distance[0]  || Distance[1] < SB.DistanceSlider.Value) ||
                     (SB.RadiusSllider.Value < Radius[0]     || Radius[1] < SB.RadiusSllider.Value);
+                IsNaN =
+                    float.IsNaN(SB.DistanceSlider.Value) ||
+                    float.IsNaN(SB.RadiusSllider.Value);
             }
         }
         public class SpringScript : CustomBlockBehaviour
@@ -316,6 +342,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = SC.SpeedSlider.Value < minValue || maxValue < SC.SpeedSlider.Value;
+                IsNaN = float.IsNaN(SC.SpeedSlider.Value);
             }
         }
         public class RopeScript : CustomBlockBehaviour
@@ -333,6 +360,8 @@ namespace PCheckerSpace
 
                 // 重さ（どうしよう）
                 IsOverpowered |= SC.MassSlider.Value < SC.MassSlider.Min || SC.MassSlider.Max < SC.MassSlider.Value;
+
+                IsNaN = float.IsNaN(SC.SpeedSlider.Value);
             }
         }
         public class SteeringBlockScript : CustomBlockBehaviour
@@ -347,6 +376,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = SW.SpeedSlider.Value < minValue || maxValue < SW.SpeedSlider.Value;
+                IsNaN = float.IsNaN(SW.SpeedSlider.Value);
             }
         }
         public class SuspensionScript : CustomBlockBehaviour
@@ -361,8 +391,12 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                IsOverpowered = SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value ||
+                IsOverpowered = 
+                    SC.SpringSlider.Value < minValue || maxValue < SC.SpringSlider.Value ||
                     SC.DamperSlider.Value < minValueDamper || maxValue < SC.DamperSlider.Value;
+                IsNaN = 
+                    float.IsNaN(SC.SpringSlider.Value) || 
+                    float.IsNaN(SC.DamperSlider.Value);
             }
         }
         public class TimerScript : CustomBlockBehaviour
@@ -379,6 +413,9 @@ namespace PCheckerSpace
                 IsOverpowered =
                     (TB.WaitSlider.Value < Wait[0] || Wait[1] < TB.WaitSlider.Value) ||
                     (TB.EmulationSlider.Value < Duration[0] || Duration[1] < TB.EmulationSlider.Value);
+                IsNaN =
+                    float.IsNaN(TB.WaitSlider.Value) ||
+                    float.IsNaN(TB.EmulationSlider.Value);
             }
         }
         public class WaterCannonScript : CustomBlockBehaviour
@@ -393,6 +430,7 @@ namespace PCheckerSpace
             public override void BuildingUpdate()
             {
                 IsOverpowered = WCC.StrengthSlider.Value < minValue || maxValue < WCC.StrengthSlider.Value;
+                IsNaN = float.IsNaN(WCC.StrengthSlider.Value);
             }
         }
         public class WheelScript : CustomBlockBehaviour
@@ -420,6 +458,7 @@ namespace PCheckerSpace
                     //(CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity))
 
                     ;
+                IsNaN = float.IsNaN(CMCH.SpeedSlider.Value);
             }
         }
         public class SpinningBlockScript : CustomBlockBehaviour
@@ -433,7 +472,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag =
+                IsOverpowered =
                     // speed < min
                     (CMCH.SpeedSlider.Value < CMCH.speedSlider.Min ||
 
@@ -447,6 +486,8 @@ namespace PCheckerSpace
                     (CMCH.AccelerationSlider.Max < CMCH.AccelerationSlider.Value && CMCH.AccelerationSlider.Value < float.PositiveInfinity)) ||
                     // スピニングブロックの自動ブレーキ = LimitSpeedToMotor
                     CMCH.AutoBreakToggle.IsActive == false;
+
+                IsNaN = float.IsNaN(CMCH.SpeedSlider.Value) || float.IsNaN(CMCH.AccelerationSlider.Value);
             }
         }
         public class LogicGateScript : CustomBlockBehaviour
@@ -459,7 +500,7 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = LG.ModeMenu.Value == EdgeDetector;
+                IsOverpowered = LG.ModeMenu.Value == EdgeDetector;
             }
         }
         public class SpeedometerScript : CustomBlockBehaviour
@@ -473,7 +514,8 @@ namespace PCheckerSpace
             }
             public override void BuildingUpdate()
             {
-                powerFlag = SB.HeightSlider.Value > maxValue || SB.HeightSlider.Value < minValue;
+                IsOverpowered = SB.HeightSlider.Value > maxValue || SB.HeightSlider.Value < minValue;
+                IsNaN = float.IsNaN(SB.HeightSlider.Value);
             }
         }
     }

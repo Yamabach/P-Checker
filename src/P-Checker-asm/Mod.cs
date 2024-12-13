@@ -7,6 +7,8 @@ using UnityEngine;
 using System.Linq;
 using spaar.ModLoader.PCUI;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
+using System.ComponentModel;
 
 namespace PCheckerSpace
 {
@@ -87,8 +89,9 @@ namespace PCheckerSpace
 		/// </summary>
 		private int m_currentRegulationCount = 7;
 		public bool AllowRocketExceed => Regulations.Find(m_currentRegulationCount).AllowRocketExceed;
+		public bool AllowNaN => Regulations.Find(m_currentRegulationCount).AllowNaN;
 
-		public void Awake()
+        public void Awake()
         {
 			// AudioSource取得
 			if (audioSource == null)
@@ -201,7 +204,12 @@ namespace PCheckerSpace
 
 			flagScale = ShowBlockNumber($"スケール変更", CheckType.Scale);
 			flagPower = ShowBlockNumber($"コピペ使用", CheckType.Power);
-			flagSkin = ShowSkinNumber();
+			bool flagNaN = true; // NaNを許可する場合は常にtrue
+            if (!AllowNaN)
+            {
+                flagNaN = ShowBlockNumber($"NaN使用", CheckType.NaN);
+            }
+            flagSkin = ShowSkinNumber();
 
 			IsOK = flagWhole &&
 			    FlagsMandatory.All(f => f) &&
@@ -209,7 +217,8 @@ namespace PCheckerSpace
 				flagForbidden &&
 				flagScale &&
 				flagPower &&
-				flagSkin;
+                flagSkin &&
+                flagSkin;
 			GUILayout.BeginHorizontal();
 			GUILayout.Label($"ブロック数総評", IsOK ? StyleOk : StyleNg);
 			GUILayout.FlexibleSpace();
@@ -341,7 +350,18 @@ namespace PCheckerSpace
 		}
 		public enum CheckType
         {
-			Scale, Power,
+			/// <summary>
+			/// スケーリング
+			/// </summary>
+			Scale, 
+			/// <summary>
+			/// 限凸
+			/// </summary>
+			Power, 
+			/// <summary>
+			/// NaN
+			/// </summary>
+			NaN,
         }
 		/// <summary>
 		/// マシンが規定を満たすことをGUIに表示する
@@ -403,7 +423,37 @@ namespace PCheckerSpace
 						GUILayout.EndHorizontal();
 					}
 					break;
-				default:
+				case CheckType.NaN:
+                    // NaNのブロック数を数える
+                    int num_NaN = 0;
+                    foreach (BlockBehaviour block in m_machine.BuildingBlocks)
+                    {
+                        if (block.BlockID == (int)BlockType.StartingBlock)
+                        {
+                            continue;
+                        }
+                        CBB = block.GetComponent<BlockController.CustomBlockBehaviour>();
+                        if (CBB is null)
+                        {
+                            Mod.Error(block.name + "でCustomBlockBehaviourがnullです");
+                            continue;
+                        }
+                        if (CBB.IsNaN)
+                        {
+                            num_NaN++;
+                        }
+                    }
+                    ret = num_NaN == 0;
+                    if (!m_minimizeUI)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(Label, ret ? StyleOk : StyleNg);
+                        GUILayout.FlexibleSpace();
+                        GUILayout.Label($"{num_NaN}", ret ? StyleOk : StyleNg);
+                        GUILayout.EndHorizontal();
+                    }
+                    break;
+                default:
 					ret = TotalBlock <= Regulations.Find(m_currentRegulationCount).MachineBlockMax;
 					if (!m_minimizeUI)
 					{
@@ -521,7 +571,12 @@ namespace PCheckerSpace
 			/// </summary>
 			[XmlAttribute("allow_rocket_exceed")]
 			public bool AllowRocketExceed { get; set; }
-			[XmlAttribute("skins")]
+			/// <summary>
+			/// ブロックのNaN設定を許容するかどうか
+			/// </summary>
+			[XmlAttribute("allow_NaN"), CanBeNull, DefaultValue(true)]
+			public bool AllowNaN { get; set; } = true;
+            [XmlAttribute("skins")]
 			public int Skins { get; set; }
 		}
 
