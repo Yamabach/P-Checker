@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <P1GPRegulations>
-	<P1GPRegulation count="8" machine_block_max="200" allow_rocket_exceed="true" allow_NaN="false" skins="4">
+	<P1GPRegulation 
+		count="8"
+		machine_block_max="200"
+		allow_rocket_exceed="true"
+		allow_copy_paste="true"
+		allow_NaN="false" use_dlc="true" skins="4">
 		<link>https://docs.google.com/spreadsheets/d/1t1m1_wMuv0lSNpa5DZmLhOa62FtD16k33N5eGWqcqbY/edit?gid=0#gid=0</link>
 
 		<!-- mandatory -->
