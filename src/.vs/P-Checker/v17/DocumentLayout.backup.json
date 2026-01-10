@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\p-checker-asm\\blockcontoroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|solutionrelative:p-checker-asm\\blockcontoroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\p-checker-asm\\mod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|solutionrelative:p-checker-asm\\mod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,10 +15,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\P-Checker\\Resources\\BlockStatus.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\p-checker-asm\\blockcontoroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|solutionrelative:p-checker-asm\\blockcontoroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{333BE99C-6F4E-4C9E-88F8-0BB53A7D3B42}|P-Checker-asm\\P-Checker-asm.csproj|C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\p-checker-asm\\blockstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -28,11 +28,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 219,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "BlockContoroller.cs",
               "DocumentMoniker": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\P-Checker-asm\\BlockContoroller.cs",
               "RelativeDocumentMoniker": "P-Checker-asm\\BlockContoroller.cs",
@@ -40,24 +40,25 @@
               "RelativeToolTip": "P-Checker-asm\\BlockContoroller.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAHEBAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-13T13:33:34.877Z"
+              "WhenOpened": "2024-12-13T13:33:34.877Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Mod.cs",
               "DocumentMoniker": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\P-Checker-asm\\Mod.cs",
               "RelativeDocumentMoniker": "P-Checker-asm\\Mod.cs",
               "ToolTip": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\src\\P-Checker-asm\\Mod.cs",
               "RelativeToolTip": "P-Checker-asm\\Mod.cs",
-              "ViewState": "AgIAAPoAAAAAAAAAAAAAwCcBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANAAAAAAAAAAAAAAwCcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-13T13:33:33.488Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Regulation.xml",
               "DocumentMoniker": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\P-Checker\\Resources\\Regulation.xml",
               "RelativeDocumentMoniker": "..\\P-Checker\\Resources\\Regulation.xml",
@@ -96,7 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "BlockStatus.xml",
               "DocumentMoniker": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Besiege\\Besiege_Data\\Mods\\P-Checker Project\\P-Checker\\Resources\\BlockStatus.xml",
               "RelativeDocumentMoniker": "..\\P-Checker\\Resources\\BlockStatus.xml",
