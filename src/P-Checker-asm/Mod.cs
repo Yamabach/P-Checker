@@ -7,6 +7,8 @@ using UnityEngine;
 using System.Linq;
 using spaar.ModLoader.PCUI;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
+using System.ComponentModel;
 
 namespace PCheckerSpace
 {
@@ -34,8 +36,35 @@ namespace PCheckerSpace
 		{
 			Debug.LogError("P Checker Error : " + message);
 		}
+
+
+        /// <summary>
+        /// ブロックのステータスをxmlファイルに保存する。開発用関数
+        /// </summary>
+        public static void SerializeBlockStatus()
+		{
+			// ブロックのステータスを保存
+			var blockStatus = new BlockStatus.XMLDeserializer.BlockStatusLimit();
+			blockStatus.Blocks = new List<BlockStatus.XMLDeserializer.Block>();
+			foreach (BlockBehaviour block in Machine.Active().BuildingBlocks)
+			{
+				var customBlock = block.GetComponent<BlockController.CustomBlockBehaviour>();
+				if (customBlock != null)
+				{
+					var status = customBlock.GetSerializedStatus();
+					if (blockStatus.Blocks.Any(x => x.Id == status.Id))
+					{
+						continue;
+					}
+					blockStatus.Blocks.Add(status);
+				}
+			}
+
+			blockStatus.Blocks.Sort((a, b) => a.Id - b.Id);
+            BlockStatus.XMLDeserializer.Serialize(blockStatus);
+		}
 	}
-	public class PCGUI : SingleInstance<PCGUI>
+    public class PCGUI : SingleInstance<PCGUI>
 	{
 		private Rect m_windowRect = new Rect(0f, 80f, 300f, 100f);
 		private int m_windowId;
@@ -81,14 +110,17 @@ namespace PCheckerSpace
 		/// <summary>
 		/// 回ごとのレギュ
 		/// </summary>
-		public XMLDeserializer.P1GPRegulations Regulations;
-		/// <summary>
-		/// 現在表示しているレギュの回
-		/// </summary>
-		private int m_currentRegulationCount = 7;
-		public bool AllowRocketExceed => Regulations.Find(m_currentRegulationCount).AllowRocketExceed;
+		public XMLDeserializer.P1GPRegulations Regulations { get; private set; }
+        /// <summary>
+        /// 現在表示しているレギュの回
+        /// </summary>
+        private int m_currentRegulationCount = 7;
+		public bool AllowCopyPaste => Regulations.Find(m_currentRegulationCount).AllowCopyPaste;
+        public bool AllowRocketExceed => Regulations.Find(m_currentRegulationCount).AllowRocketExceed;
+		public bool AllowNaN => Regulations.Find(m_currentRegulationCount).AllowNaN;
+		public BlockStatus.XMLDeserializer.BlockStatusLimit BlockStatusLimit { get; private set; }
 
-		public void Awake()
+        public void Awake()
         {
 			// AudioSource取得
 			if (audioSource == null)
@@ -99,9 +131,11 @@ namespace PCheckerSpace
 			// レギュ取得
 			Regulations = XMLDeserializer.Deserialize();
 			m_currentRegulationCount = Regulations.P1GPRegulation.Max(r => r.Count);
+            // ブロックステータスを読み込む
+            BlockStatusLimit = BlockStatus.XMLDeserializer.Deserialize();
 
-			// GUIのテキストスタイルの初期化
-			StyleOk = new GUIStyle();
+            // GUIのテキストスタイルの初期化
+            StyleOk = new GUIStyle();
 			StyleOk.normal.textColor = Color.white;
 			StyleNg = new GUIStyle();
 			StyleNg.normal.textColor = Color.red;
@@ -201,7 +235,12 @@ namespace PCheckerSpace
 
 			flagScale = ShowBlockNumber($"スケール変更", CheckType.Scale);
 			flagPower = ShowBlockNumber($"コピペ使用", CheckType.Power);
-			flagSkin = ShowSkinNumber();
+			bool flagNaN = true; // NaNを許可する場合は常にtrue
+            if (!AllowNaN)
+            {
+                flagNaN = ShowBlockNumber($"NaN使用", CheckType.NaN);
+            }
+            flagSkin = ShowSkinNumber();
 
 			IsOK = flagWhole &&
 			    FlagsMandatory.All(f => f) &&
@@ -209,7 +248,8 @@ namespace PCheckerSpace
 				flagForbidden &&
 				flagScale &&
 				flagPower &&
-				flagSkin;
+                flagSkin &&
+                flagSkin;
 			GUILayout.BeginHorizontal();
 			GUILayout.Label($"ブロック数総評", IsOK ? StyleOk : StyleNg);
 			GUILayout.FlexibleSpace();
@@ -284,7 +324,15 @@ namespace PCheckerSpace
 				GUILayout.EndHorizontal();
 			}
 
-			GUI.DragWindow();
+			/*
+            // 開発用
+			if (GUILayout.Button("ブロックステータス保存"))
+            {
+                Mod.SerializeBlockStatus();
+            }
+			*/
+
+            GUI.DragWindow();
 		}
 		/// <summary>
 		/// ブロックの数と判定をGUIに表示する
@@ -341,7 +389,18 @@ namespace PCheckerSpace
 		}
 		public enum CheckType
         {
-			Scale, Power,
+			/// <summary>
+			/// スケーリング
+			/// </summary>
+			Scale, 
+			/// <summary>
+			/// 限凸
+			/// </summary>
+			Power, 
+			/// <summary>
+			/// NaN
+			/// </summary>
+			NaN,
         }
 		/// <summary>
 		/// マシンが規定を満たすことをGUIに表示する
@@ -388,7 +447,7 @@ namespace PCheckerSpace
 							Mod.Error(block.name + "でCustomBlockBehaviourがnullです");
 							continue;
 						}
-						if (CBB.IsOverpowered)
+						if (CBB.IsOverpowered())
 						{
 							num_power++;
 						}
@@ -403,7 +462,37 @@ namespace PCheckerSpace
 						GUILayout.EndHorizontal();
 					}
 					break;
-				default:
+				case CheckType.NaN:
+                    // NaNのブロック数を数える
+                    int num_NaN = 0;
+                    foreach (BlockBehaviour block in m_machine.BuildingBlocks)
+                    {
+                        if (block.BlockID == (int)BlockType.StartingBlock)
+                        {
+                            continue;
+                        }
+                        CBB = block.GetComponent<BlockController.CustomBlockBehaviour>();
+                        if (CBB is null)
+                        {
+                            Mod.Error(block.name + "でCustomBlockBehaviourがnullです");
+                            continue;
+                        }
+                        if (CBB.IsNaN())
+                        {
+                            num_NaN++;
+                        }
+                    }
+                    ret = num_NaN == 0;
+                    if (!m_minimizeUI)
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(Label, ret ? StyleOk : StyleNg);
+                        GUILayout.FlexibleSpace();
+                        GUILayout.Label($"{num_NaN}", ret ? StyleOk : StyleNg);
+                        GUILayout.EndHorizontal();
+                    }
+                    break;
+                default:
 					ret = TotalBlock <= Regulations.Find(m_currentRegulationCount).MachineBlockMax;
 					if (!m_minimizeUI)
 					{
@@ -517,11 +606,27 @@ namespace PCheckerSpace
 			[XmlAttribute("machine_block_max")]
 			public int MachineBlockMax { get; set; }
 			/// <summary>
-			/// ロケットの限凸を許容するかどうか
+			/// コピペバグを許可するかどうか
 			/// </summary>
-			[XmlAttribute("allow_rocket_exceed")]
+			[XmlAttribute("allow_copy_paste"), CanBeNull, DefaultValue(false)]
+			public bool AllowCopyPaste { get; set; } = false;
+            /// <summary>
+            /// ロケットの限凸を許容するかどうか
+            /// </summary>
+            [XmlAttribute("allow_rocket_exceed")]
 			public bool AllowRocketExceed { get; set; }
-			[XmlAttribute("skins")]
+			/// <summary>
+			/// ブロックのNaN設定を許容するかどうか
+			/// </summary>
+			[XmlAttribute("allow_NaN"), CanBeNull, DefaultValue(true)]
+            public bool AllowNaN { get; set; } = true;
+            /// <summary>
+            /// DLCを使用するかどうか
+			/// 使用する場合、コピペバグの数値上限等が変化する
+            /// </summary>
+            [XmlAttribute("use_dlc"), CanBeNull, DefaultValue(false)]
+            public bool UseDLC { get; set; } = false;
+            [XmlAttribute("skins")]
 			public int Skins { get; set; }
 		}
 

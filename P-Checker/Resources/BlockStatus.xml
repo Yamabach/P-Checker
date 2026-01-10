@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BlockStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" lineNumber="0" linePosition="0">
+  <block id="0" name="StartingBlock" />
+  <block id="1" name="DoubleWoodenBlock" />
+  <block id="2" name="Wheel">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+    <slider display_name="INFLATION" key="contact" min="0.1" max="0.5" unclamped="false" />
+  </block>
+  <block id="3" name="MetalBlade" />
+  <block id="4" name="Decoupler">
+    <slider display_name="Power" key="epower" min="0" max="3" unclamped="false" />
+  </block>
+  <block id="5" name="Hinge" />
+  <block id="6" name="MetalBall" />
+  <block id="7" name="Brace" />
+  <block id="9" name="Spring">
+    <slider display_name="Strength" key="slider" min="0.3" max="10" unclamped="false" />
+  </block>
+  <block id="10" name="WoodenPanel" />
+  <block id="11" name="Cannon">
+    <slider display_name="Power" key="strength" min="0.1" max="2" unclamped="false" />
+  </block>
+  <block id="13" name="SteeringBlock">
+    <slider display_name="Rotation Speed" key="rotation-speed" min="0" max="2" unclamped="false" />
+    <slider display_name="TENSION" key="tension" min="0.5" max="2" unclamped="false" />
+  </block>
+  <block id="14" name="FlyingBlock">
+    <slider display_name="Flying Speed" key="speed" min="0" max="1.25" unclamped="false" />
+  </block>
+  <block id="15" name="SingleWoodenBlock" />
+  <block id="16" name="Suspension">
+    <slider display_name="Spring" key="spring" min="0.25" max="3" unclamped="false" />
+    <slider display_name="DAMPER" key="damper" min="0.1" max="3" unclamped="false" />
+  </block>
+  <block id="17" name="CircularSaw">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+  </block>
+  <block id="18" name="Piston">
+    <slider display_name="Speed" key="speed" min="0.1" max="2" unclamped="false" />
+    <slider display_name="Power" key="push-power" min="1" max="2" unclamped="false" />
+  </block>
+  <block id="19" name="Swivel" />
+  <block id="20" name="Spike" />
+  <block id="21" name="Flamethrower">
+    <slider display_name="Range" key="range" min="0.2" max="1.25" unclamped="false" />
+  </block>
+  <block id="22" name="SpinningBlock">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+  </block>
+  <block id="23" name="Bomb" />
+  <block id="24" name="ArmorPlateSmall" />
+  <block id="25" name="Wing" />
+  <block id="26" name="Propeller" />
+  <block id="27" name="Grabber" />
+  <block id="28" name="SteeringHinge">
+    <slider display_name="Rotation Speed" key="rotation-speed" min="0" max="2" unclamped="false" />
+    <slider display_name="TENSION" key="tension" min="0.5" max="2" unclamped="false" />
+  </block>
+  <block id="29" name="ArmorPlateRound" />
+  <block id="30" name="BombHolder" />
+  <block id="31" name="FlameBall" />
+  <block id="32" name="ArmorPlateLarge" />
+  <block id="33" name="Plow" />
+  <block id="34" name="WingPanel" />
+  <block id="35" name="Ballast">
+    <slider display_name="Mass" key="mass" min="0.2" max="3" unclamped="false" />
+  </block>
+  <block id="36" name="Boulder" />
+  <block id="37" name="HalfPipe" />
+  <block id="38" name="CogMediumUnpowered" />
+  <block id="39" name="CogMediumPowered">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+  </block>
+  <block id="40" name="WheelUnpowered">
+    <slider display_name="INFLATION" key="contact" min="0.1" max="0.5" unclamped="false" />
+  </block>
+  <block id="41" name="WoodenPole" />
+  <block id="42" name="Slider" />
+  <block id="43" name="Balloon">
+    <slider display_name="LIFT" key="buoyancy" min="0.2" max="1.5" unclamped="false" />
+    <slider display_name="Height" key="height" min="0" max="250" unclamped="true" />
+    <slider display_name="String Length" key="string-length" min="0" max="6" unclamped="false" />
+  </block>
+  <block id="44" name="BallJoint" />
+  <block id="45" name="RopeWinch">
+    <slider display_name="Speed" key="slider" min="0.3" max="2" unclamped="false" />
+    <slider display_name="String Length" key="rope-length" min="2.00000048" max="4.000001" unclamped="false" />
+    <slider display_name="Mass" key="point-mass" min="0.01" max="10" unclamped="false" />
+  </block>
+  <block id="46" name="LargeWheel">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+    <slider display_name="INFLATION" key="contact" min="0.1" max="0.5" unclamped="false" />
+  </block>
+  <block id="47" name="Torch" />
+  <block id="48" name="Drill">
+    <slider display_name="Speed" key="speed" min="0" max="2" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+  </block>
+  <block id="49" name="GripPad" />
+  <block id="50" name="SmallWheel" />
+  <block id="51" name="CogLargeUnpowered" />
+  <block id="53" name="ShrapnelCannon">
+    <slider display_name="Power" key="strength" min="0.1" max="4" unclamped="false" />
+  </block>
+  <block id="54" name="Grenade" />
+  <block id="55" name="SmallPropeller" />
+  <block id="56" name="WaterCannon">
+    <slider display_name="Power" key="strength" min="0.1" max="1.5" unclamped="false" />
+  </block>
+  <block id="57" name="Pin" />
+  <block id="58" name="CameraBlock">
+    <slider display_name="Distance" key="distance" min="1" max="80" unclamped="false" />
+    <slider display_name="Height" key="height" min="-90" max="90" unclamped="false" />
+    <slider display_name="Rotation" key="rotation" min="-180" max="180" unclamped="false" />
+    <slider display_name="Tilt" key="pitch" min="-180" max="180" unclamped="false" />
+    <slider display_name="Roll" key="roll" min="-180" max="180" unclamped="false" />
+    <slider display_name="Yaw" key="yaw" min="-180" max="180" unclamped="false" />
+    <slider display_name="Smooth" key="smooth" min="0" max="1" unclamped="false" />
+    <slider display_name="Field Of View" key="fov" min="30" max="70" unclamped="false" />
+    <slider display_name="Prediction" key="predict" min="0" max="10" unclamped="false" />
+  </block>
+  <block id="59" name="Rocket">
+    <slider display_name="Flight Duration" key="duration" min="0.5" max="10" unclamped="false" />
+    <slider display_name="Thrust" key="strength" min="0.5" max="1.5" unclamped="false" />
+    <slider display_name="Explosive Charge" key="charge" min="0" max="1.5" unclamped="false" />
+  </block>
+  <block id="60" name="LargeWheelUnpowered">
+    <slider display_name="INFLATION" key="contact" min="0.1" max="0.5" unclamped="false" />
+  </block>
+  <block id="61" name="Crossbow">
+    <slider display_name="Rate of Fire" key="rate-of-fire" min="0.25" max="4" unclamped="false" />
+    <slider display_name="Power" key="power" min="0.25" max="2" unclamped="false" />
+  </block>
+  <block id="62" name="Vacuum">
+    <slider display_name="Power" key="power" min="0.5" max="2" unclamped="false" />
+  </block>
+  <block id="63" name="Log" />
+  <block id="65" name="Sensor">
+    <slider display_name="Distance" key="distance" min="0.5" max="50" unclamped="false" />
+    <slider display_name="Radius" key="radius" min="0.25" max="2" unclamped="false" />
+  </block>
+  <block id="66" name="Timer">
+    <slider display_name="Wait" key="wait" min="0" max="60" unclamped="true" />
+    <slider display_name="Emulation&#xA;Duration" key="emulation-time" min="0" max="60" unclamped="true" />
+  </block>
+  <block id="67" name="Altimeter">
+    <slider display_name="Height" key="height" min="0.5" max="250" unclamped="true" />
+  </block>
+  <block id="68" name="LogicGate" />
+  <block id="69" name="Anglometer">
+    <slider display_name="MIN" key="start-a" min="-180" max="180" unclamped="true" />
+    <slider display_name="MAX" key="end-a" min="-180" max="180" unclamped="true" />
+  </block>
+  <block id="70" name="Speedometer">
+    <slider display_name="SPEED" key="speed-threshold" min="0.5" max="250" unclamped="true" />
+  </block>
+  <block id="71" name="BuildNode" />
+  <block id="72" name="BuildEdge" />
+  <block id="73" name="BuildSurface">
+    <slider display_name="Mass" key="custom-mass" min="0" max="10" unclamped="false" />
+    <slider display_name="TINT" key="tint" min="0" max="1" unclamped="false" />
+    <slider display_name="Saturation" key="sat" min="0" max="1" unclamped="false" />
+    <slider display_name="Luminosity" key="lum" min="0" max="1" unclamped="false" />
+    <slider display_name="THICKNESS" key="thickness" min="0.01" max="0.08" unclamped="false" />
+  </block>
+  <block id="74" name="SqrBalloon">
+    <slider display_name="Height" key="height" min="0" max="250" unclamped="true" />
+    <slider display_name="LIFT" key="buoyancy" min="0" max="1.5" unclamped="false" />
+  </block>
+  <block id="75" name="RopeMeasure">
+    <slider display_name="LENGTH" key="length" min="0.1" max="10" unclamped="true" />
+    <slider display_name="Length %" key="length-percentage" min="0" max="200" unclamped="true" />
+  </block>
+  <block id="76" name="Axle" />
+  <block id="77" name="MetalJaw">
+    <slider display_name="Force" key="force" min="0.25" max="2" unclamped="false" />
+    <slider display_name="Limit Angle" key="jaw-angle" min="1" max="90" unclamped="false" />
+  </block>
+  <block id="78" name="Sail">
+    <slider display_name="MAX SIZE" key="sail-size" min="0" max="1" unclamped="false" />
+    <slider display_name="FOLD SPEED" key="fold-speed" min="0" max="1.5" unclamped="false" />
+  </block>
+  <block id="79" name="Rudder">
+    <slider display_name="Rotation Speed" key="water-rotation-speed" min="0" max="1.5" unclamped="false" />
+  </block>
+  <block id="80" name="NauticalScrew">
+    <slider display_name="Speed" key="speed" min="0" max="3" unclamped="false" />
+    <slider display_name="Acceleration" key="acceleration" min="0.1" max="50" unclamped="true" />
+  </block>
+  <block id="81" name="Paddle" />
+  <block id="82" name="Buoyancy">
+    <slider display_name="Buoyancy" key="water-buoyancy" min="0.1" max="10" unclamped="false" />
+    <slider display_name="RISE AMOUNT" key="rate-up" min="0.01" max="1" unclamped="false" />
+    <slider display_name="SINK AMOUNT" key="rate-down" min="0.01" max="1" unclamped="false" />
+  </block>
+  <block id="83" name="BigBarrel">
+    <slider display_name="Buoyancy" key="water-buoyancy" min="0.1" max="12" unclamped="false" />
+    <slider display_name="RISE AMOUNT" key="rate-up" min="0.01" max="1" unclamped="false" />
+    <slider display_name="SINK AMOUNT" key="rate-down" min="0.01" max="1" unclamped="false" />
+  </block>
+  <block id="84" name="Harpoon">
+    <slider display_name="POWER" key="shoot-power" min="0" max="2" unclamped="false" />
+    <slider display_name="Speed" key="reel-speed" min="0" max="1.5" unclamped="false" />
+  </block>
+  <block id="85" name="CornerWoodenBlock" />
+  <block id="86" name="SkateWheel">
+    <slider display_name="TENSION" key="tightness" min="0.1" max="1" unclamped="false" />
+  </block>
+  <block id="87" name="BouncePad">
+    <slider display_name="Spring" key="springiness" min="0.5" max="2" unclamped="false" />
+    <slider display_name="SLACK" key="distance" min="0" max="1" unclamped="false" />
+  </block>
+  <block id="88" name="FlyWheel">
+    <slider display_name="INERTIA" key="inertia" min="1" max="10" unclamped="false" />
+    <slider display_name="Power" key="lockforce" min="1" max="100" unclamped="true" />
+    <slider display_name="LOCK RATE" key="clutchTime" min="0" max="2" unclamped="true" />
+  </block>
+  <block id="89" name="DragBlock">
+    <slider display_name="MAGNITUDE" key="magnitude" min="0.1" max="3" unclamped="false" />
+  </block>
+</BlockStatus>
