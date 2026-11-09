@@ -249,7 +249,7 @@ namespace PCheckerSpace
 				flagScale &&
 				flagPower &&
                 flagSkin &&
-                flagSkin;
+                flagNaN;
 			GUILayout.BeginHorizontal();
 			GUILayout.Label($"ÉuÉçÉbÉNêîëçï]", IsOK ? StyleOk : StyleNg);
 			GUILayout.FlexibleSpace();

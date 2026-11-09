@@ -176,10 +176,13 @@ namespace PCheckerSpace
                     // コピペ禁止
                     else
                     {
-                        var sliderData = blockStatus.Sliders.Find(x => x.Key == slider.Key);
-                        if (sliderData == null) { continue; }
-                        if (!sliderData.Unclamped
-                            && (slider.Value < sliderData.Min || sliderData.Max < slider.Value))
+                        var sliderData = blockStatus?.Sliders?.Find(x => x.Key == slider.Key);
+                        // BlockStatus.xmlに無いブロック・スライダー（DLCの新ブロック等）は、ブロック自身のスライダーの範囲で判定する
+                        float min = sliderData != null ? sliderData.Min : slider.Min;
+                        float max = sliderData != null ? sliderData.Max : slider.Max;
+                        bool unclamped = sliderData != null ? sliderData.Unclamped : slider.Unclamped;
+                        if (!unclamped
+                            && (slider.Value < min || max < slider.Value))
                         {
                             return true;
                         }
@@ -442,6 +445,12 @@ namespace PCheckerSpace
 
             public override bool IsOverpowered(bool allowCopyPaste)
             {
+                // コピペ禁止の回は、ロケット本来のスライダー範囲（BlockStatus.xml）で厳密に判定する
+                if (!allowCopyPaste)
+                {
+                    return base.IsOverpowered(false);
+                }
+
                 return PCGUI.Instance.AllowRocketExceed ?
 
                 // ロケットの限凸可能
