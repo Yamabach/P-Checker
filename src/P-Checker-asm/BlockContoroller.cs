@@ -158,10 +158,27 @@ namespace PCheckerSpace
         public class CustomBlockBehaviour : MonoBehaviour
         {
             BlockBehaviour internalObject;
+            /// <summary>
+            /// 範囲がブロックごとに動的に決まるスライダーのkey。
+            /// BlockStatus.xmlの値は生成時の1個体の範囲でしかないため、ブロック自身のスライダーの範囲で判定する。
+            /// rope-length: ロープウインチの長さ。SpringCode.Start/OnLoad/SetRopeLength で両端の距離からSetRangeされる
+            /// </summary>
+            private static readonly HashSet<string> DynamicRangeSliderKeys = new HashSet<string> { "rope-length" };
             public virtual bool IsOverpowered(bool allowCopyPaste)
             {
                 foreach (var slider in internalObject.Sliders)
                 {
+                    // 範囲が動的なスライダー
+                    if (DynamicRangeSliderKeys.Contains(slider.Key))
+                    {
+                        // 範囲は両端の距離から再計算されるため、浮動小数点誤差を許容する
+                        const float eps = 1e-3f;
+                        if (!slider.Unclamped && (slider.Value < slider.Min - eps || slider.Max + eps < slider.Value))
+                        {
+                            return true;
+                        }
+                        continue;
+                    }
                     // コピペ許可
                     if (allowCopyPaste)
                     {

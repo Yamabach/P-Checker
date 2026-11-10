@@ -6,8 +6,7 @@
 		allow_rocket_exceed="false"
 		allow_copy_paste="false"
 		allow_NaN="false" use_dlc="true" skins="4">
-		<!-- TODO: 第10回のルール表が公開されたらリンクを差し替える（現在は第9回のもの） -->
-		<link>https://docs.google.com/spreadsheets/d/1-KRx7iXQ8hQtKo97rDES3ebnsfLG3YmVyOR7qn0DG9A/edit?usp=sharing</link>
+		<link>https://docs.google.com/spreadsheets/d/1r3E_DZfHZT9g2-68vtbsERZlecaO97E3hkDrgCzqzWA/edit?usp=sharing</link>
 
 		<!-- mandatory -->
 		<Block name="ボム" id="23" min="4" max="200" />
