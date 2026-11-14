@@ -164,45 +164,47 @@ namespace PCheckerSpace
             /// rope-length: ロープウインチの長さ。SpringCode.Start/OnLoad/SetRopeLength で両端の距離からSetRangeされる
             /// </summary>
             private static readonly HashSet<string> DynamicRangeSliderKeys = new HashSet<string> { "rope-length" };
+            /// <summary>
+            /// スライダーの値が、ゲーム本体がそのブロックのスライダーに設定している範囲の外にあるか
+            /// </summary>
+            private static bool IsOutOfOwnRange(MSlider slider)
+            {
+                // ロープ長などは範囲が再計算されるため、浮動小数点誤差を許容する
+                const float eps = 1e-3f;
+                return !slider.Unclamped && (slider.Value < slider.Min - eps || slider.Max + eps < slider.Value);
+            }
             public virtual bool IsOverpowered(bool allowCopyPaste)
             {
                 foreach (var slider in internalObject.Sliders)
                 {
-                    // 範囲が動的なスライダー
-                    if (DynamicRangeSliderKeys.Contains(slider.Key))
-                    {
-                        // 範囲は両端の距離から再計算されるため、浮動小数点誤差を許容する
-                        const float eps = 1e-3f;
-                        if (!slider.Unclamped && (slider.Value < slider.Min - eps || slider.Max + eps < slider.Value))
-                        {
-                            return true;
-                        }
-                        continue;
-                    }
                     // コピペ許可
                     if (allowCopyPaste)
                     {
-                        string key = slider.Key;
-                        if (OverpoweredSlider.ContainsKey(key) && !OverpoweredSlider[key].Unclamped
-                            && (slider.Value < OverpoweredSlider[key].Min || OverpoweredSlider[key].Max < slider.Value)
-                            )
+                        // 範囲が動的なスライダーは他ブロックと共有しないので、自身の範囲で判定する
+                        if (DynamicRangeSliderKeys.Contains(slider.Key))
                         {
-                            return true;
+                            if (IsOutOfOwnRange(slider)) { return true; }
+                            continue;
+                        }
+                        // 同じkeyを持つ全ブロックの範囲（BlockStatus.xml）と、自身の範囲の和集合で判定する
+                        // （ゲームのアップデートでXML生成時より範囲が広がっていても誤判定しないように）
+                        string key = slider.Key;
+                        if (OverpoweredSlider.ContainsKey(key) && !OverpoweredSlider[key].Unclamped && !slider.Unclamped)
+                        {
+                            float min = Mathf.Min(OverpoweredSlider[key].Min, slider.Min);
+                            float max = Mathf.Max(OverpoweredSlider[key].Max, slider.Max);
+                            if (slider.Value < min || max < slider.Value)
+                            {
+                                return true;
+                            }
                         }
                     }
                     // コピペ禁止
                     else
                     {
-                        var sliderData = blockStatus?.Sliders?.Find(x => x.Key == slider.Key);
-                        // BlockStatus.xmlに無いブロック・スライダー（DLCの新ブロック等）は、ブロック自身のスライダーの範囲で判定する
-                        float min = sliderData != null ? sliderData.Min : slider.Min;
-                        float max = sliderData != null ? sliderData.Max : slider.Max;
-                        bool unclamped = sliderData != null ? sliderData.Unclamped : slider.Unclamped;
-                        if (!unclamped
-                            && (slider.Value < min || max < slider.Value))
-                        {
-                            return true;
-                        }
+                        // BlockStatus.xmlは使わず、ゲーム本体がそのブロックに設定している範囲で判定する
+                        // （ゲームのアップデートで範囲が変わっても追従できるように）
+                        if (IsOutOfOwnRange(slider)) { return true; }
                     }
                 }
                 return false;
@@ -462,7 +464,7 @@ namespace PCheckerSpace
 
             public override bool IsOverpowered(bool allowCopyPaste)
             {
-                // コピペ禁止の回は、ロケット本来のスライダー範囲（BlockStatus.xml）で厳密に判定する
+                // コピペ禁止の回は、ロケット本来のスライダー範囲（ゲーム本体の値）で厳密に判定する
                 if (!allowCopyPaste)
                 {
                     return base.IsOverpowered(false);
